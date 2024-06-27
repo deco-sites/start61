@@ -1,102 +1,70 @@
-import type { ImageWidget } from "apps/admin/widgets.ts";
-import Image from "apps/website/components/Image.tsx";
+
+import type { HTMLWidget } from "apps/admin/widgets.ts";
 
 interface Props {
   /**
-   * @title Product Image
-   * @description The image of the product
+   * @title HTMX Script
+   * @description The HTMX script to be included in the component
+   * @format code
+   * @language javascript
    */
-  productImage?: ImageWidget;
+  htmxScript?: string;
 
   /**
-   * @title Product Title
-   * @description The title of the product
-   * @format rich-text
+   * @title Search Placeholder
+   * @description Placeholder text for the search input
    */
-  title?: string;
+  searchPlaceholder?: string;
 
   /**
-   * @title Product Description
-   * @description A brief description of the product
-   * @format textarea
+   * @title Search Endpoint
+   * @description The endpoint for HTMX to interact with for search
    */
-  description?: string;
+  searchEndpoint?: string;
 
   /**
-   * @title CTA Text
-   * @description Text for the call-to-action button
+   * @title Results Container
+   * @description HTML content for the initial state of the results container
    */
-  ctaText?: string;
-
-  /**
-   * @title CTA Link
-   * @description URL for the call-to-action button
-   */
-  ctaLink?: string;
+  resultsContainer?: HTMLWidget;
 
   /**
    * @title Background Color
-   * @description Background color of the card
+   * @description Background color of the component
    * @format color-input
    */
   backgroundColor?: string;
-
-  /**
-   * @title Show Second Card
-   * @description Toggle to show or hide the second card
-   */
-  showSecondCard?: boolean;
 }
 
-export default function ProductCard({
-  productImage = "https://ozksgdmyrqcxcwhnbepg.supabase.co/storage/v1/object/public/assets/1818/ff6bb37e-0eab-40e1-a454-86856efc278e",
-  title = "Shoes!",
-  description = "If a dog chews shoes whose shoes does he choose?",
-  ctaText = "Buy Now",
-  ctaLink = "#",
-  backgroundColor = "#bef264",
-  showSecondCard = false,
+export default function DynamicSearchBox({
+  htmxScript = "https://unpkg.com/htmx.org@1.9.2",
+  searchPlaceholder = "Search...",
+  searchEndpoint = "/api/search",
+  resultsContainer = "<div>Search results will appear here</div>",
+  backgroundColor = "#f0f0f0",
 }: Props) {
   return (
-    <div className="flex flex-wrap justify-center gap-8">
-      <div className="card w-96 shadow-xl shadow-bottom">
-        <figure className="px-10 pt-10" style={{ backgroundColor }}>
-          <Image
-            src={productImage}
-            alt="Product"
-            width={300}
-            height={200}
-            class="rounded-xl object-cover"
-          />
-        </figure>
-        <div className="card-body items-center text-center">
-          <h2 className="card-title">{title}</h2>
-          <p>{description}</p>
-          <div className="card-actions">
-            <a href={ctaLink} className="btn btn-primary">{ctaText}</a>
-          </div>
+    <div style={{ backgroundColor }} className="p-4 rounded-lg">
+      <script src={htmxScript}></script>
+      <div className="flex flex-col space-y-4">
+        <input
+          type="text"
+          placeholder={searchPlaceholder}
+          className="input input-bordered w-full"
+          hx-post={searchEndpoint}
+          hx-trigger="keyup changed delay:500ms"
+          hx-target="#search-results"
+          hx-indicator="#search-indicator"
+        />
+        <div id="search-indicator" className="htmx-indicator">
+          <div className="loading loading-spinner loading-md"></div>
         </div>
+        <div
+          id="search-results"
+          className="bg-white p-4 rounded-lg shadow"
+          dangerouslySetInnerHTML={{ __html: resultsContainer }}
+        ></div>
       </div>
-      {showSecondCard && (
-        <div className="card w-96 shadow-xl shadow-bottom">
-          <figure className="px-10 pt-10" style={{ backgroundColor }}>
-            <Image
-              src={productImage}
-              alt="Product"
-              width={300}
-              height={200}
-              class="rounded-xl object-cover"
-            />
-          </figure>
-          <div className="card-body items-center text-center">
-            <h2 className="card-title">{title}</h2>
-            <p>{description}</p>
-            <div className="card-actions">
-              <a href={ctaLink} className="btn btn-primary">{ctaText}</a>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

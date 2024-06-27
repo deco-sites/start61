@@ -1,3 +1,4 @@
 {
-  "__resolveType": "site/sections/HelloSection.tsx"
+  "__resolveType": "site/sections/HelloSection.tsx",
+  "showSecondCard": false
 }
