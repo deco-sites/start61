@@ -1,58 +1,49 @@
-export interface Props {
-  /**
-   * @format textarea
-   * @default Angie MacDowell
-   */
-  name?: string;
+import { usePartialSection } from "deco/hooks/usePartialSection.ts";
 
+interface Props {
   /**
-   * @format textarea 
-   * @default angie@macdowell.org
+   * @description The initial count value
    */
-  email?: string;
-
+  initialCount?: number;
   /**
-   * @format select
-   * @default Active
-   * @options Active,Inactive
+   * @description The title of the counter
+   * @format rich-text
    */
-  status?: string;
-
+  title?: string;
   /**
-   * @format textarea
-   * @default /contact/1
+   * @description The color of the counter text
+   * @format color-input
    */
-  deleteUrl?: string;
+  textColor?: string;
 }
 
-export default function DeleteRowExample({ 
-  name = "Angie MacDowell",
-  email = "angie@macdowell.org", 
-  status = "Active",
-  deleteUrl = "/contact/1",
-}: Props) {
+const Counter = ({ initialCount = 0, title = "Counter", textColor = "#000000" }: Props) => {
   return (
-    <table class="table delete-row-example">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Status</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody hx-target="closest tr">
-        <tr>
-          <td>{name}</td>
-          <td>{email}</td>
-          <td>{status}</td>
-          <td>
-            <button class="btn btn-error" hx-delete={deleteUrl}>
-              Delete
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="flex flex-col items-center justify-center p-4">
+      <h2 class="text-2xl font-bold mb-4" style={{ color: textColor }}>{title}</h2>
+      <div class="text-4xl font-bold mb-4" style={{ color: textColor }} id="count">
+        {initialCount}
+      </div>
+      <div class="flex space-x-4">
+        <button
+          class="btn btn-primary"
+          {...usePartialSection<typeof Counter>({
+            props: { initialCount: initialCount - 1 },
+          })}
+        >
+          Decrease
+        </button>
+        <button
+          class="btn btn-primary"
+          {...usePartialSection<typeof Counter>({
+            props: { initialCount: initialCount + 1 },
+          })}
+        >
+          Increase
+        </button>
+      </div>
+    </div>
   );
-}
+};
+
+export default Counter;
