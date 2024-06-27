@@ -1,46 +1,74 @@
+import { HTMLWidget } from "apps/admin/widgets.ts";
 
-export interface Props {
+interface Props {
   /**
-   * The label for the input field
+   * @title Initial Count
+   * @description The starting value for the counter
    */
-  label?: string;
+  initialCount?: number;
   /**
-   * The placeholder text for the input field
+   * @title Increment Text
+   * @description Text for the increment button
    */
-  placeholder?: string;
+  incrementText?: string;
   /**
-   * The URL of the mock endpoint to send requests to
+   * @title Decrement Text
+   * @description Text for the decrement button
    */
-  endpoint?: string;
+  decrementText?: string;
   /**
-   * The HTMX content to render
+   * @title Counter Style
+   * @description Custom styles for the counter display
+   * @format code
+   * @language css
+   */
+  counterStyle?: string;
+  /**
+   * @title HTMX Content
+   * @description The HTMX-powered content for the counter
    * @format code
    * @language html
    */
-  htmxContent?: unknown;
+  htmxContent?: HTMLWidget;
 }
 
-export default function PoweredWithHTMX({
-  label = "Enter text",
-  placeholder = "Type something...",
-  endpoint = "/mock-endpoint",
+export default function HTMXCounter({
+  initialCount = 0,
+  incrementText = "Increment",
+  decrementText = "Decrement",
+  counterStyle = "font-bold text-2xl",
   htmxContent = `
-    <div>
-      <input type="text" name="query" placeholder="Type something..." 
-             hx-post="/mock-endpoint" 
-             hx-trigger="keyup changed delay:500ms"
-             hx-target="#result"
-             class="input input-bordered">
-      <div id="result"></div>
+    <div class="flex flex-col items-center space-y-4">
+      <div id="counter" class="font-bold text-2xl">${initialCount}</div>
+      <div class="flex space-x-4">
+        <button
+          class="btn btn-primary"
+          hx-post="/increment"
+          hx-target="#counter"
+          hx-swap="innerHTML"
+        >
+          ${incrementText}
+        </button>
+        <button
+          class="btn btn-secondary"
+          hx-post="/decrement"
+          hx-target="#counter"
+          hx-swap="innerHTML"
+        >
+          ${decrementText}
+        </button>
+      </div>
     </div>
   `,
 }: Props) {
   return (
-    <div class="powered-with-htmx">
-      <label class="label">
-        <span class="label-text">{label}</span>
-      </label>
+    <div class="htmx-counter p-6 bg-base-200 rounded-lg shadow-md">
       <div dangerouslySetInnerHTML={{ __html: htmxContent }}></div>
+      <style>{`
+        #counter {
+          ${counterStyle}
+        }
+      `}</style>
     </div>
   );
 }
