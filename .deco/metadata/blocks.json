@@ -56,5 +56,13 @@
   "/.deco/blocks/Preview%20%2Fsections%2Fhtmx.tsx.json": {
     "blockType": "sections",
     "__resolveType": "site/sections/htmx.tsx"
+  },
+  "/.deco/blocks/Preview%20%2Fsections%2FCounter.tsx.json": {
+    "blockType": "sections",
+    "__resolveType": "site/sections/Counter.tsx"
+  },
+  "/.deco/blocks/Preview%20%2Fsections%2Fadding.tsx.json": {
+    "blockType": "sections",
+    "__resolveType": "site/sections/adding.tsx"
   }
 }

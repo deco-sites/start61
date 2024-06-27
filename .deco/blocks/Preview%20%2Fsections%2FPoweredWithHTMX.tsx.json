@@ -1,7 +1,17 @@
 {
   "__resolveType": "site/sections/PoweredWithHTMX.tsx",
-  "title": "Contacts",
+  "title": "<p></p>",
   "confirmMessage": "Are you sure you want to delete this contact?",
   "statusOptions": "Active",
-  "deleteButtonColor": "#ff0000"
+  "deleteButtonColor": "#ff0000",
+  "items": [
+    {
+      "id": "1",
+      "name": "nome"
+    },
+    {
+      "id": "2",
+      "name": "sobrenome"
+    }
+  ]
 }
