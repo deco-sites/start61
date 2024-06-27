@@ -1,3 +1,7 @@
 {
-  "__resolveType": "site/sections/PoweredWithHTMX.tsx"
+  "__resolveType": "site/sections/PoweredWithHTMX.tsx",
+  "title": "Contacts",
+  "confirmMessage": "Are you sure you want to delete this contact?",
+  "statusOptions": "Active",
+  "deleteButtonColor": "#ff0000"
 }

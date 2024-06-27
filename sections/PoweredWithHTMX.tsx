@@ -1,74 +1,58 @@
-import { HTMLWidget } from "apps/admin/widgets.ts";
+export interface Props {
+  /**
+   * @format textarea
+   * @default Angie MacDowell
+   */
+  name?: string;
 
-interface Props {
   /**
-   * @title Initial Count
-   * @description The starting value for the counter
+   * @format textarea 
+   * @default angie@macdowell.org
    */
-  initialCount?: number;
+  email?: string;
+
   /**
-   * @title Increment Text
-   * @description Text for the increment button
+   * @format select
+   * @default Active
+   * @options Active,Inactive
    */
-  incrementText?: string;
+  status?: string;
+
   /**
-   * @title Decrement Text
-   * @description Text for the decrement button
+   * @format textarea
+   * @default /contact/1
    */
-  decrementText?: string;
-  /**
-   * @title Counter Style
-   * @description Custom styles for the counter display
-   * @format code
-   * @language css
-   */
-  counterStyle?: string;
-  /**
-   * @title HTMX Content
-   * @description The HTMX-powered content for the counter
-   * @format code
-   * @language html
-   */
-  htmxContent?: HTMLWidget;
+  deleteUrl?: string;
 }
 
-export default function HTMXCounter({
-  initialCount = 0,
-  incrementText = "Increment",
-  decrementText = "Decrement",
-  counterStyle = "font-bold text-2xl",
-  htmxContent = `
-    <div class="flex flex-col items-center space-y-4">
-      <div id="counter" class="font-bold text-2xl">${initialCount}</div>
-      <div class="flex space-x-4">
-        <button
-          class="btn btn-primary"
-          hx-post="/increment"
-          hx-target="#counter"
-          hx-swap="innerHTML"
-        >
-          ${incrementText}
-        </button>
-        <button
-          class="btn btn-secondary"
-          hx-post="/decrement"
-          hx-target="#counter"
-          hx-swap="innerHTML"
-        >
-          ${decrementText}
-        </button>
-      </div>
-    </div>
-  `,
+export default function DeleteRowExample({ 
+  name = "Angie MacDowell",
+  email = "angie@macdowell.org", 
+  status = "Active",
+  deleteUrl = "/contact/1",
 }: Props) {
   return (
-    <div class="htmx-counter p-6 bg-base-200 rounded-lg shadow-md">
-      <div dangerouslySetInnerHTML={{ __html: htmxContent }}></div>
-      <style>{`
-        #counter {
-          ${counterStyle}
-        }
-      `}</style>
-    </div>
+    <table class="table delete-row-example">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Status</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody hx-target="closest tr">
+        <tr>
+          <td>{name}</td>
+          <td>{email}</td>
+          <td>{status}</td>
+          <td>
+            <button class="btn btn-error" hx-delete={deleteUrl}>
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   );
 }

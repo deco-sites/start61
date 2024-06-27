@@ -52,5 +52,9 @@
   "/.deco/blocks/Preview%20%2Fsections%2FPoweredWithHTMX.tsx.json": {
     "blockType": "sections",
     "__resolveType": "site/sections/PoweredWithHTMX.tsx"
+  },
+  "/.deco/blocks/Preview%20%2Fsections%2Fhtmx.tsx.json": {
+    "blockType": "sections",
+    "__resolveType": "site/sections/htmx.tsx"
   }
 }
