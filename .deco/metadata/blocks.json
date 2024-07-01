@@ -84,5 +84,9 @@
   "/.deco/blocks/Preview%20%2Fsections%2FExample.tsx.json": {
     "blockType": "sections",
     "__resolveType": "site/sections/Example.tsx"
+  },
+  "/.deco/blocks/Preview%20%2Fsections%2Fddd.tsx.json": {
+    "blockType": "sections",
+    "__resolveType": "/sections/ddd.tsx"
   }
 }
