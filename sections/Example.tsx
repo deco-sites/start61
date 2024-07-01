@@ -7,17 +7,12 @@ interface Item {
    * @format rich-text
    * @description The item description
    */
-  description: string;
+  description?: string;
   /**
    * @format color-input
    * @description The item color
    */
-  color: string;
-  /**
-   * @format checkbox
-   * @description Show the item details
-   */
-  showDetails: boolean;
+  color?: string;
 }
 
 interface Props {
@@ -34,44 +29,27 @@ export default function DynamicList({ items = [] }: Props) {
         {items.map((item) => (
           <li
             key={item.id}
-            class={`flex flex-col items-start justify-between bg-base-200 p-3 rounded-lg ${
-              item.showDetails ? "bg-" + item.color + "-200" : ""
+            class={`flex items-center justify-between bg-base-200 p-3 rounded-lg ${
+              item.color ? `bg-[${item.color}]` : ""
             }`}
           >
-            <span class="text-lg font-bold">{item.name}</span>
-            {item.showDetails && (
-              <div class="mt-2">
-                <p class="text-gray-600">{item.description}</p>
-              </div>
-            )}
-            <div class="flex items-center justify-end mt-2 w-full">
-              <button
-                class="btn btn-error btn-sm"
-                {...usePartialSection<typeof DynamicList>({
-                  props: {
-                    items: items.filter((i) => i.id !== item.id),
-                  },
-                })}
-                hx-swap="outerHTML"
-              >
-                Delete
-              </button>
-              <button
-                class="btn btn-primary btn-sm ml-2"
-                {...usePartialSection<typeof DynamicList>({
-                  props: {
-                    items: items.map((i) =>
-                      i.id === item.id
-                        ? { ...i, showDetails: !i.showDetails }
-                        : i
-                    ),
-                  },
-                })}
-                hx-swap="outerHTML"
-              >
-                {item.showDetails ? "Hide Details" : "Show Details"}
-              </button>
+            <div>
+              <span class="text-lg">{item.name}</span>
+              {item.description && (
+                <p class="text-gray-500">{item.description}</p>
+              )}
             </div>
+            <button
+              class="btn btn-error btn-sm"
+              {...usePartialSection<typeof DynamicList>({
+                props: {
+                  items: items.filter((i) => i.id !== item.id),
+                },
+              })}
+              hx-swap="outerHTML"
+            >
+              Delete
+            </button>
           </li>
         ))}
       </ul>
