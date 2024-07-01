@@ -1,28 +1,46 @@
-import type { ImageWidget } from "apps/admin/widgets.ts";
-import Image from "apps/website/components/Image.tsx";
+import { useSection } from "deco/hooks/useSection.ts";
 
-export interface Props {
-  image?: ImageWidget;
-  /** @format rich-text */
-  title?: string;
-  /** @format textarea */
-  description?: string;
+interface Item {
+  id: string;
+  name: string;
 }
 
-export default function Banner({ image, title, description }: Props) {
+interface Props {
+  /**
+   * @description List of items to display
+   */
+  items?: Item[];
+}
+
+const DeleteableList = ({ items = [] }: Props) => {
   return (
-    <div className="text-center">
-      {title && <h2 className="text-4xl font-rounded text-green-600 mb-4">{title}</h2>}
-      {image && (
-        <Image
-          src={image}
-          alt={title || "Banner Image"}
-          width={1200}
-          height={400}
-          className="mx-auto rounded-lg"
-        />
+    <div class="container mx-auto p-4">
+      <ul class="space-y-2">
+        {items.map((item) => (
+          <li
+            key={item.id}
+            class="flex items-center justify-between bg-base-200 p-3 rounded-lg"
+          >
+            <span class="text-lg">{item.name}</span>
+            <button
+              class="btn btn-error btn-sm"
+              {...useSection<typeof DeleteableList>({
+                props: {
+                  items: items.filter((i) => i.id !== item.id),
+                },
+              })}
+              hx-swap="outerHTML"
+            >
+              Delete
+            </button>
+          </li>
+        ))}
+      </ul>
+      {items.length === 0 && (
+        <p class="text-center text-gray-500 mt-4">No items in the list</p>
       )}
-      {description && <p className="mt-4 text-lg text-green-700 font-rounded">{description}</p>}
     </div>
   );
-}
+};
+
+export default DeleteableList;
