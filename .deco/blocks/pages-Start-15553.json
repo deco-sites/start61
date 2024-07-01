@@ -27,7 +27,8 @@
           "id": 3,
           "name": "teste"
         }
-      ]
+      ],
+      "value": "Test"
     }
   ],
   "__resolveType": "website/pages/Page.tsx"
