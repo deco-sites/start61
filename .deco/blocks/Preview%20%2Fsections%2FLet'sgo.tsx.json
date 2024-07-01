@@ -1,3 +1,13 @@
 {
-  "__resolveType": "site/sections/Let'sgo.tsx"
+  "__resolveType": "site/sections/Let'sgo.tsx",
+  "items": [
+    {
+      "id": 1,
+      "name": "Teste"
+    },
+    {
+      "id": 5,
+      "name": "nome"
+    }
+  ]
 }

@@ -1,61 +1,86 @@
-import { usePartialSection } from "deco/hooks/usePartialSection.ts";
+import { useSignal } from "@preact/signals";
+import { useSection } from "deco/hooks/useSection.ts";
 
 interface Item {
-  id: string;
+  id: number;
   name: string;
-  /**
-   * @format rich-text
-   * @description The item description
-   */
-  description?: string;
-  /**
-   * @format color-input
-   * @description The item color
-   */
-  color?: string;
 }
 
-interface Props {
-  /**
-   * @description List of items to display
-   */
+export default function TodoList({
+  items = [{ id: 1, name: "Initial Item" }],
+}: {
   items?: Item[];
-}
+}) {
+  const newItemName = useSignal("");
+  const itemsList = useSignal(items);
 
-export default function DynamicList({ items = [] }: Props) {
+  const addItem = () => {
+    if (newItemName.value.trim()) {
+      itemsList.value = [
+        ...itemsList.value,
+        { id: Date.now(), name: newItemName.value },
+      ];
+      newItemName.value = "";
+    }
+  };
+
+  const removeItem = (id: number) => {
+    itemsList.value = itemsList.value.filter((item) => item.id !== id);
+  };
+
   return (
-    <div class="container mx-auto p-4">
-      <ul class="space-y-2">
-        {items.map((item) => (
-          <li
-            key={item.id}
-            class={`flex items-center justify-between bg-base-200 p-3 rounded-lg ${
-              item.color ? `bg-[${item.color}]` : ""
-            }`}
-          >
+    <div class="container mx-auto my-8">
+      <div class="mb-4">
+        <input
+          type="text"
+          value={newItemName.value}
+          onInput={(e) => (newItemName.value = e.currentTarget.value)}
+          placeholder="Add a new item"
+          class="input input-bordered w-full"
+        />
+        <button onClick={addItem} class="btn btn-primary mt-2">
+          Add
+        </button>
+      </div>
+      <ul class="menu bg-base-100 rounded-box">
+        {itemsList.value.map((item) => (
+          <li key={item.id} class="flex justify-between items-center">
+            <span>{item.name}</span>
             <div>
-              <span class="text-lg">{item.name}</span>
-              {item.description && (
-                <p class="text-gray-500">{item.description}</p>
-              )}
+              <button
+                hx-get={useSection({
+                  props: {
+                    items: itemsList.value.filter(
+                      (i) => i.id !== item.id
+                    ),
+                  },
+                })}
+                hx-target="closest section"
+                hx-swap="outerHTML"
+                class="btn btn-sm btn-error btn-circle"
+              >
+                <span class="inline [.htmx-request_&]:hidden">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-6 h-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </span>
+                <span class="hidden [.htmx-request_&]:inline loading loading-spinner" />
+              </button>
             </div>
-            <button
-              class="btn btn-error btn-sm"
-              {...usePartialSection<typeof DynamicList>({
-                props: {
-                  items: items.filter((i) => i.id !== item.id),
-                },
-              })}
-              hx-swap="outerHTML"
-            >
-              Delete
-            </button>
           </li>
         ))}
       </ul>
-      {items.length === 0 && (
-        <p class="text-center text-gray-500 mt-4">No items in the list</p>
-      )}
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import { usePartialSection } from "deco/hooks/usePartialSection.ts";
+import { useSection } from "deco/hooks/useSection.ts";
 
 interface Item {
   id: string;
@@ -24,7 +24,7 @@ const DeleteableList = ({ items = [] }: Props) => {
             <span class="text-lg">{item.name}</span>
             <button
               class="btn btn-error btn-sm"
-              {...usePartialSection<typeof DeleteableList>({
+              {...useSection<typeof DeleteableList>({
                 props: {
                   items: items.filter((i) => i.id !== item.id),
                 },
