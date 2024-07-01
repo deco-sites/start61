@@ -68,5 +68,17 @@
   "/.deco/blocks/Preview%20%2Fsections%2FBannerSection.tsx.json": {
     "blockType": "sections",
     "__resolveType": "site/sections/BannerSection.tsx"
+  },
+  "/.deco/blocks/Preview%20%2Fsections%2FNewSection.tsx.json": {
+    "blockType": "sections",
+    "__resolveType": "site/sections/NewSection.tsx"
+  },
+  "/.deco/blocks/Preview%20%2Fsections%2Fcc.tsx.json": {
+    "blockType": "sections",
+    "__resolveType": "site/sections/cc.tsx"
+  },
+  "/.deco/blocks/Preview%20%2Fsections%2FLet'sgo.tsx.json": {
+    "blockType": "sections",
+    "__resolveType": "site/sections/Let'sgo.tsx"
   }
 }
