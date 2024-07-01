@@ -9,7 +9,8 @@ export default function Section({ count = 0 }:{ count: number }) {
         hx-swap="outerHTML"
         class="btn btn-sm btn-circle btn-outline no-animation"
       >
-        <span>-</span>
+         <span class="inline [.htmx-request_&]:hidden">-</span>
+          <span class="hidden [.htmx-request_&]:inline loading loading-spinner" />
       </button>
       <span>{count}</span>
       <button
@@ -18,7 +19,8 @@ export default function Section({ count = 0 }:{ count: number }) {
         hx-swap="outerHTML"
         class="btn btn-sm btn-circle btn-outline no-animation"
       >
-        <span>+</span>
+         <span class="inline [.htmx-request_&]:hidden">+</span>
+          <span class="hidden [.htmx-request_&]:inline loading loading-spinner" />
       </button>
     </div>
   );

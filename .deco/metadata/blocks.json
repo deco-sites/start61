@@ -80,5 +80,9 @@
   "/.deco/blocks/Preview%20%2Fsections%2FLet'sgo.tsx.json": {
     "blockType": "sections",
     "__resolveType": "site/sections/Let'sgo.tsx"
+  },
+  "/.deco/blocks/Preview%20%2Fsections%2FExample.tsx.json": {
+    "blockType": "sections",
+    "__resolveType": "site/sections/Example.tsx"
   }
 }
